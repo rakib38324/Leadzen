@@ -34,7 +34,7 @@ const Home = () => {
 
    // Change page
   const paginate = (pageNumber,event) => {
-    event.target.style.backgroundColor='#00FF00'
+    event.preventDefault()
     setCurrentPage(pageNumber)
     
   };
