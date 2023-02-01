@@ -6,7 +6,9 @@ import Pagination from "../Pagination/Pagination";
 const Home = () => {
   const [info, setInfo] = useState([]);
   const [details, setDetails] = useState({});
-  console.log(details)
+  const [currentPage, setCurrentPage] = useState(1);
+  const [infoPerPage] = useState(3);
+ 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,9 +26,22 @@ const Home = () => {
     .then(data=> setDetails(data))
   };
 
+
+   // Get current posts
+   const indexOfLastPage = currentPage * infoPerPage;
+   const indexOfFirstPage = indexOfLastPage - infoPerPage;
+   const currentInfo = info.slice(indexOfFirstPage, indexOfLastPage);
+
+   // Change page
+  const paginate = (pageNumber,event) => {
+    event.target.style.backgroundColor='#00FF00'
+    setCurrentPage(pageNumber)
+    
+  };
+
   return (
     <div>
-      {info?.map((personInfo) => (
+      {currentInfo?.map((personInfo) => (
         <div
           key={personInfo.id}
           className="grid grid-cols-2 lg:grid-cols-5 p-4 bg-base-300 m-2 rounded-md"
@@ -54,6 +69,10 @@ const Home = () => {
           </label>
         </div>
       ))}
+
+      <Pagination infoPerPage={infoPerPage}
+        totalInfo={info.length}
+        paginate={paginate}></Pagination>
 
       <div>
         
